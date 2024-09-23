@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import Navbar from "@/app/(components)/Navbar";
 import Sidebar from '@/app/(components)/Sidebar';
-import { Chicle } from 'next/font/google';
 import StoreProvider, { useAppSelector } from './redux';
 
 
@@ -40,4 +39,4 @@ const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default DashboardLayout
+export default DashboardWrapper
