@@ -72,14 +72,12 @@ const updateTaskStatus = (req, res) => __awaiter(void 0, void 0, void 0, functio
             },
             data: {
                 status: status,
-            }
+            },
         });
-        res.json(exports.updateTaskStatus);
+        res.json(updatedTask);
     }
     catch (error) {
-        res
-            .status(500)
-            .json({ message: `Error updating tasks: ${error.message}` });
+        res.status(500).json({ message: `Error updating task: ${error.message}` });
     }
 });
 exports.updateTaskStatus = updateTaskStatus;

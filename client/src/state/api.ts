@@ -46,28 +46,29 @@ export interface Attachment {
 export interface Task {
     id: number;
     title: string;
-    description: string;
+    description?: string;
     status?: Status;
     priority?: Priority;
     tags?: string;
-    starDate?: string;
+    startDate?: string;
     dueDate?: string;
     points?: number;
     projectId: number;
     authorUserId?: number;
     assignedUserId?: number;
-
+  
     author?: User;
     assignee?: User;
     comments?: Comment[];
     attachments?: Attachment[];
-}
+  }
+  
 
 export const api = createApi({
     baseQuery: fetchBaseQuery({baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL}),
     reducerPath: 'api',
     tagTypes: ["Projects", "Tasks"],
-    endpoints: (build)=>({
+    endpoints: (build) => ({
         getProjects: build.query<Project[], void>({
             query: () => "projects",
             providesTags: ["Projects"],
@@ -80,9 +81,9 @@ export const api = createApi({
             }),
             invalidatesTags: ["Projects"]
         }),
-        getTasks: build.query<Task[], {projectId:number}>({
-            query: (projectId) => `tasks?projectId=${projectId}`,
-            providesTags: (result)=>result ? result.map(({ id }) => ({type:"Tasks" as const, id})) : [{type: "Tasks" as const}],
+        getTasks: build.query<Task[], { projectId: number }>({
+            query: ({projectId}) => `tasks?projectId=${projectId}`,
+            providesTags: (result) => result ? result.map(({ id }) => ({type:"Tasks" as const, id})) : [{type: "Tasks" as const}],
         }),
         createTask: build.mutation<Task, Partial<Task>>({
             query: (task) => ({
@@ -92,7 +93,7 @@ export const api = createApi({
             }),
             invalidatesTags: ["Tasks"]
         }),
-        updateTaskStatus: build.mutation<Task, {taskId: number; status: string}>({
+        updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
             query: ({taskId, status}) => ({
                 url: `tasks/${taskId}/status`,
                 method: "PATCH",
@@ -110,5 +111,6 @@ export const {
     useCreateProjectMutation,
     useGetTasksQuery,
     useCreateTaskMutation,
+    useUpdateTaskStatusMutation,
 } = api;
 
